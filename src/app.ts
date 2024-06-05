@@ -9,7 +9,7 @@ app.use(cors());
 const port = process.env.PORT || 3000;
 
 app.get('/hello', (req:Request, res:Response) => {
-    res.send("Hello World Fernando");
+    res.send("Hello World Fernando Daniel");
 });
 
 app.get('/bye', (req:Request, res:Response) => {
