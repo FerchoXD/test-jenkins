@@ -10,28 +10,21 @@ pipeline {
     }
     
     stages {
-        stage('Debug') {
-            steps {
-                sh 'which npm'
-                sh 'node -v'
-                sh 'npm -v'
-            }
-        }
-
         stage('install') {
             steps {
                 git branch: 'main', url: 'https://github.com/FerchoXD/test-jenkins.git'
-                dir('test-Jenkins') { // Cambiar al directorio del proyecto clonado
-                    sh 'npm install'
-                }
+            }
+        }
+
+        stage('npminstall') {
+            steps {
+                sh 'npm install'
             }
         }
 
         stage('Test') {
             steps {
-                dir('/'){
-                    sh 'npm run test'
-                }
+                sh 'npm run test'
             }
         }
 
