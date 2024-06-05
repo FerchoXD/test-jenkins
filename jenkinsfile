@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    tools { nodejs "Node" }
+
+    parameters {
+        string(name: 'container_name', defaultValue: 'pagina_web', description: 'Nombre del contenedor de docker')
+        string(name: 'image_name', defaultValue: 'pagina_img', description: 'Nombre de la imagen de docker')
+        string(name: 'tag_name', defaultValue: 'lts', description: 'Tag de la imagen de docker')
+        string(name: 'container_port', defaultValue: '80', description: 'Puerto del contenedor de docker')
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/FerchoXD/test-Jenkins.git'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'npm run test'
+            }
+        }
+    }
+}
