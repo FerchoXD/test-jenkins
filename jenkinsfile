@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    tools { nodejs "Node" }
+    tools { nodejs "node" }
 
     parameters {
         string(name: 'container_name', defaultValue: 'pagina_web', description: 'Nombre del contenedor de docker')
@@ -10,19 +10,19 @@ pipeline {
     }
     
     stages {
-        stage('Checkout') {
+        stage('install') {
             steps {
                 git branch: 'main', url: 'https://github.com/FerchoXD/test-Jenkins.git'
-            }
-        }
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
+                dir('/') {
+                    sh 'npm install'
+                }
             }
         }
         stage('Test') {
             steps {
-                sh 'npm run test'
+                dir('/'){
+                    sh 'npm run test'
+                }
             }
         }
     }
