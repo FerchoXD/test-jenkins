@@ -16,6 +16,12 @@ pipeline {
             }
         }
 
+        stage('update') {
+            steps {
+                sh 'git pull origin main'
+            }
+        }
+
         stage('npminstall') {
             steps {
                 sh 'npm install'
