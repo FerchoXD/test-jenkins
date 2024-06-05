@@ -10,6 +10,14 @@ pipeline {
     }
     
     stages {
+        stage('Debug') {
+            steps {
+                sh 'which npm'
+                sh 'node -v'
+                sh 'npm -v'
+            }
+        }
+
         stage('install') {
             steps {
                 git branch: 'main', url: 'https://github.com/FerchoXD/test-Jenkins.git'
@@ -25,5 +33,6 @@ pipeline {
                 }
             }
         }
+
     }
 }
