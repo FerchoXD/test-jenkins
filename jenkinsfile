@@ -29,7 +29,7 @@ pipeline {
 
         stage('TurnOnInstance'){
             steps {
-                sh "docker run -d -p $container_port:3000 --name $container_name"
+                sh "docker run -d -p $container_port:3000 --name $container_name $image_name"
             }
         }
 
