@@ -18,9 +18,12 @@ pipeline {
 
         stage('build') {
             steps {
-                sh "docker build -t $container_name ."
+                // Convertir container_name a minúsculas
+                def lowerCaseContainerName = container_name.toLowerCase()
+                sh "docker build -t $lowerCaseContainerName ."
             }
         }
+
 
         stage('TurnOnInstance'){
             steps {
