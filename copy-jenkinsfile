@@ -16,9 +16,27 @@ pipeline {
             }
         }
 
+        stage('build') {
+            steps {
+                sh 'docker build -t $image_name .'
+            }
+        }
+
+        stage('update') {
+            steps {
+                sh 'git pull origin main'
+            }
+        }
+
         stage('npminstall') {
             steps {
                 sh 'npm install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'npm run test'
             }
         }
 
