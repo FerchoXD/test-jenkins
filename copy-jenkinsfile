@@ -22,6 +22,12 @@ pipeline {
             }
         }
 
+        stage('upInstance'){
+            steps {
+                sh "docker run -d -p $container_port:3000 --name $container_name"
+            }
+        }
+
         stage('update') {
             steps {
                 sh 'git pull origin main'
