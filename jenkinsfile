@@ -16,6 +16,24 @@ pipeline {
             }
         }
 
+        stage('build') {
+            steps {
+                sh 'docker build -t $image_name .'
+            }
+        }
+
+        stage('TurnOnInstance'){
+            steps {
+                sh "docker run -d -p $container_port:3000 --name $container_name"
+            }
+        }
+
+        stage('update') {
+            steps {
+                sh 'git pull origin main'
+            }
+        }
+
         stage('npminstall') {
             steps {
                 sh 'npm install'
