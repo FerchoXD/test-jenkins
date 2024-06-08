@@ -10,12 +10,6 @@ pipeline {
     }
     
     stages {
-        stage('install') {
-            steps {
-                // No es necesario obtener el código aquí si estás usando la detección de cambios en Jenkins
-                //git branch: 'main', url: 'https://github.com/FerchoXD/test-jenkins.git'
-            }
-        }
 
         stage('build') {
             steps {
