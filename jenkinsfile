@@ -5,14 +5,15 @@ pipeline {
     parameters {
         string(name: 'container_name', defaultValue: 'app', description: 'Nombre del contenedor de docker')
         string(name: 'image_name', defaultValue: 'app', description: 'Nombre de la imagen de docker')
-        string(name: 'tag_name', defaultValue: 'lts', description: 'Tag de la imagen de docker')
+        string(name: 'tag_name', defaultValue: 'latest', description: 'Tag de la imagen de docker')
         string(name: 'container_port', defaultValue: '3000', description: 'Puerto del contenedor de docker')
     }
     
     stages {
         stage('install') {
             steps {
-                git branch: 'main', url: 'https://github.com/FerchoXD/test-jenkins.git'
+                // No es necesario obtener el código aquí si estás usando la detección de cambios en Jenkins
+                //git branch: 'main', url: 'https://github.com/FerchoXD/test-jenkins.git'
             }
         }
 
@@ -21,21 +22,19 @@ pipeline {
                 script {
                     // Convertir container_name a minúsculas
                     def lowerCaseContainerName = container_name.toLowerCase()
-                    sh "docker build -t $lowerCaseContainerName ."
+                    // Construir una nueva imagen de Docker
+                    sh "docker build -t $lowerCaseContainerName:$tag_name ."
                 }
             }
         }
 
-
         stage('TurnOnInstance'){
             steps {
-                sh "docker run -d -p $container_port:3000 --name $container_name $image_name"
-            }
-        }
-
-        stage('update') {
-            steps {
-                sh "git pull origin main"
+                // Detener el contenedor anterior si existe
+                sh "docker stop $container_name || true"
+                sh "docker rm $container_name || true"
+                // Ejecutar un nuevo contenedor con la imagen actualizada
+                sh "docker run -d -p $container_port:3000 --name $container_name $image_name:$tag_name"
             }
         }
 
